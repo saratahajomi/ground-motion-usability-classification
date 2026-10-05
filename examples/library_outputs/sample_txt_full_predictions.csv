@@ -1,0 +1,2 @@
+predicted_probability_class_1,predicted_label,record_id,mode,generated_features,omitted_model_inputs,threshold
+6.0889897867357346e-09,0.0,20150727044856_AV_CLCO_BHE,full,1368,0,0.91

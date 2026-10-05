@@ -1,0 +1,21 @@
+{
+  "original_prediction_rows": 1755,
+  "max_probability_difference": 1.1102230246251565e-16,
+  "labels_identical": true,
+  "r_feature_max_absolute_difference": 3.581135388230905e-12,
+  "r_feature_names_identical": true,
+  "reduced_matches_full_subset": true,
+  "full_feature_seconds": 0.3458404999691993,
+  "reduced_feature_seconds": 0.27783040003851056,
+  "txt_samples": 33001,
+  "sample_txt_full_probability": 6.0889897867357346e-09,
+  "sample_txt_reduced_probability": 2.25304660321971e-09,
+  "miniseed_trace_count": 54,
+  "miniseed_total_samples": 2186220,
+  "miniseed_processed_traces": 54,
+  "miniseed_reduced_matches_full_subset": true,
+  "miniseed_full_total_seconds": 24.266501099977177,
+  "miniseed_reduced_total_seconds": 22.91558149998309,
+  "miniseed_mode_label_differences": 0,
+  "package_tests_passed": 4
+}

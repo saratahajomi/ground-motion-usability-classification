@@ -2,6 +2,31 @@
 
 Repository supporting the study **“Automated Usability Classification of Ground-Motion Records Using Machine Learning and Waveform-Based Pattern Recognition”** by Sara Tahajomi Banafshehvaragh, Pengfei Wang, and Tadahiro Kishida.
 
+## Python usability library
+
+The installable library is available in [`python_library/`](python_library/README.md). It includes the original saved LightGBM model and embedded ranking; no retraining or external ranking CSV is needed.
+
+- **Full:** 1,368 features (504 binary STA/LTA + 864 envelope medians).
+- **Reduced:** directly generates only the top 500 ranked features (39 STA/LTA + 461 envelope medians).
+- **Inputs:** two-column TXT and MiniSEED; each MiniSEED trace is processed separately.
+- **Outputs:** usability probability, binary label, and original feature names.
+
+```bash
+python -m pip install "git+https://github.com/saratahajomi/ground-motion-usability-classification.git#subdirectory=python_library"
+```
+
+```python
+from gm_usability import UsabilityModel
+
+model = UsabilityModel()
+predictions, features = model.predict_file("record.txt", mode="reduced")
+print(predictions)
+```
+
+Both modes use the unchanged 1,368-input classifier, fitted imputer, and saved 0.91 threshold. Reduced mode fills the 868 uncomputed model inputs using the saved imputer; its predictions can differ from full mode. The original full-model accuracy is not a validation of reduced-mode accuracy.
+
+See [installation and usage](python_library/README.md), the [runnable example](examples/test_usability_library.py), and [validation results](python_library/verification.json). Full inference reproduces all 1,755 original testing labels. The large training and testing waveform datasets remain a separate planned release.
+
 ## Overview
 
 This repository is intended to provide reproducibility materials for an automated machine-learning framework that classifies raw ground-motion records as usable or non-usable using waveform-derived features.
@@ -11,7 +36,7 @@ The study uses two feature families:
 - Multi-configuration STA/LTA-derived features.
 - Envelope-percentile features describing the temporal context of waveform amplitudes.
 
-The repository will contain the record labels and train/test assignments, feature-generation code, trained model files, and example workflows. The selected raw ground-motion records are large and will be added separately.
+The repository includes the installable inference library, bundled trained model, and example workflows. Record labels, train/test assignments, and additional research scripts are planned separately. The selected raw ground-motion records are large and will be added separately.
 
 ## Repository structure
 
@@ -27,8 +52,9 @@ ground-motion-usability-classification/
 │   └── selected_records_testing/        # data to be added
 ├── src/
 │   └── feature_generation/              # scripts to be added
-├── models/                              # trained model(s) to be added
-└── examples/                            # example usage to be added
+├── python_library/                      # installable library and bundled model
+├── models/                              # additional research artifacts planned
+└── examples/                            # runnable library example and sample outputs
 ```
 
 ## Data
@@ -45,27 +71,27 @@ The waveform folders are intentionally not included in the initial GitHub reposi
 
 ## Feature generation
 
-Feature-generation scripts will be placed in `src/feature_generation/`.
+The Python library implements feature generation in `python_library/gm_usability/features.py`. Additional research scripts will be placed in `src/feature_generation/`.
 
 The manuscript evaluates a multi-configuration STA/LTA feature set spanning 12 STA/LTA window pairs, 7 thresholds, and 6 minimum exceedance durations (504 configurations), together with envelope-percentile waveform features.
 
 ## Models
 
-Final trained model artifacts required for reproducibility will be placed in `models/` after the manuscript/model version is finalized.
+The library bundles the unchanged 1,368-input LightGBM model in `python_library/gm_usability/data/model.sav`. Its SHA-256, input order, and threshold are recorded in `python_library/model_manifest.json`. Additional model artifacts may be placed in `models/`.
 
 ## Examples
 
-Reproducible example workflows for feature generation and model application will be placed in `examples/`.
+Run `examples/test_usability_library.py` with a TXT or MiniSEED path. Example prediction outputs are in `examples/library_outputs/`.
 
 ## Installation
 
-After cloning the repository, install the Python dependencies with:
+After cloning the repository, install the usability library with:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install ./python_library
 ```
 
-Exact package versions will be pinned when the final reproducibility environment is archived.
+Python 3.10 or newer is required. The library pins scikit-learn 1.7.2 and LightGBM 4.6.0; see its README for an isolated environment setup.
 
 ## Data availability
 

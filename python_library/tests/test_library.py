@@ -1,10 +1,34 @@
 import unittest
 import numpy as np
 import pandas as pd
-from gm_usability import UsabilityModel, extract_features, FULL_FEATURE_NAMES, TOP500_FEATURE_NAMES, RANKED_FEATURE_NAMES
+import tempfile
+import warnings
+from pathlib import Path
+from gm_usability import UsabilityModel, extract_features, read_waveforms, FULL_FEATURE_NAMES, TOP500_FEATURE_NAMES, RANKED_FEATURE_NAMES
 
 
 class LibraryTests(unittest.TestCase):
+    def test_miniseed_skips_short_and_constant_traces(self):
+        from obspy import Stream, Trace
+        traces = [Trace(np.arange(40, dtype=np.int32)),
+                  Trace(np.zeros(100, dtype=np.int32)),
+                  Trace(np.arange(100, dtype=np.int32))]
+        for trace in traces:
+            trace.stats.delta = .02
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'mixed.miniseed'
+            Stream(traces).write(str(path), format='MSEED')
+            with warnings.catch_warnings(record=True) as caught:
+                warnings.simplefilter('always')
+                records = read_waveforms(path)
+            self.assertEqual(len(records), 1)
+            self.assertEqual(len(caught), 2)
+            Stream(traces[:2]).write(str(path), format='MSEED')
+            with warnings.catch_warnings():
+                warnings.simplefilter('ignore')
+                with self.assertRaisesRegex(ValueError, 'no valid traces'):
+                    read_waveforms(path)
+
     def test_schema_and_reduced_values(self):
         x = np.arange(6000) * .02
         y = np.sin(x * 3) * (1 + 10 * np.exp(-((x-45)/4)**2))

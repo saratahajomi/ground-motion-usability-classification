@@ -9,7 +9,7 @@ from time import perf_counter
 import argparse
 from gm_usability import UsabilityModel
 
-INPUT_FILE = Path("record.txt")  # Set this to your TXT or MiniSEED file.
+INPUT_FILE = Path(__file__).resolve().parent / "20031222191507_NC_PMM_HNN.txt"  # Set this to your TXT or MiniSEED file.
 
 
 def main():

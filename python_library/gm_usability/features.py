@@ -6,6 +6,7 @@ and nonfinite context handling are preserved.
 from pathlib import Path
 import math
 import re
+import warnings
 import numpy as np
 import pandas as pd
 from ._ranking import FULL_FEATURE_NAMES, RANKED_FEATURE_NAMES
@@ -49,10 +50,15 @@ def read_waveforms(path):
     result = []
     for i, trace in enumerate(read(str(path), format="MSEED")):
         y = np.asarray(np.ma.filled(trace.data, np.nan), dtype=float)
-        x, y, _ = _validate(trace.times(), y)
-        result.append((f"{path.stem}:{trace.id}:{trace.stats.starttime}:{i}", x, y))
+        record_id = f"{path.stem}:{trace.id}:{trace.stats.starttime}:{i}"
+        try:
+            x, y, _ = _validate(trace.times(), y)
+        except ValueError as error:
+            warnings.warn(f"Skipping invalid MiniSEED trace {record_id}: {error}", UserWarning, stacklevel=2)
+            continue
+        result.append((record_id, x, y))
     if not result:
-        raise ValueError("MiniSEED contains no traces")
+        raise ValueError("MiniSEED contains no valid traces (at least 64 finite samples, nonzero variance, and valid sampling interval required)")
     return result
 
 

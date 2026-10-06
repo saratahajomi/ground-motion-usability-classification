@@ -19,13 +19,31 @@ python -m pip install "git+https://github.com/saratahajomi/ground-motion-usabili
 from gm_usability import UsabilityModel
 
 model = UsabilityModel()
-predictions, features = model.predict_file("record.txt", mode="reduced")
+predictions, features = model.predict_file("examples/20031222191507_NC_PMM_HNN.txt", mode="reduced")
 print(predictions)
 ```
 
 Both modes use the unchanged 1,368-input classifier, fitted imputer, and saved 0.91 threshold. Reduced mode fills the 868 uncomputed model inputs using the saved imputer; its predictions can differ from full mode. The original full-model accuracy is not a validation of reduced-mode accuracy.
 
 See [installation and usage](python_library/README.md), the [runnable example](examples/test_usability_library.py), and [validation results](python_library/verification.json). Full inference reproduces all 1,755 original testing labels. The large training and testing waveform datasets remain a separate planned release.
+
+## Run the included waveform examples
+
+This repository includes two supplied sample inputs in `examples/`:
+
+- `20031222191507_NC_PMM_HNN.txt`
+- `60_antarctica2012_10deg.miniseed`
+
+After installation, run from the repository root:
+
+```powershell
+python examples/test_usability_library.py examples/20031222191507_NC_PMM_HNN.txt
+python examples/test_usability_library.py examples/60_antarctica2012_10deg.miniseed
+```
+
+Each command tests full and reduced modes and saves feature and prediction CSVs in `library_results/`. For MiniSEED, each valid stored trace receives its own prediction. Version 0.1.1 skips invalid traces with explicit warnings; the Antarctica file contains 53 traces, of which two have only 40 samples and are skipped, leaving 51 valid traces.
+
+See [the example guide](examples/README.md) for isolated-environment and PyCharm instructions. Uploading files does not delete existing GitHub paths. Remove obsolete root `models/`, `src/`, `data/`, and `requirements.txt` placeholders separately when updating an existing repository.
 
 ## Overview
 
@@ -36,7 +54,7 @@ The study uses two feature families:
 - Multi-configuration STA/LTA-derived features.
 - Envelope-percentile features describing the temporal context of waveform amplitudes.
 
-The repository includes the installable inference library, bundled trained model, and example workflows. Record labels, train/test assignments, and additional research scripts are planned separately. The selected raw ground-motion records are large and will be added separately.
+The repository includes the installable inference library, bundled trained model, and example workflows. Two waveform inputs are included for testing; the complete research dataset is a separate release.
 
 ## Repository structure
 
@@ -44,40 +62,37 @@ The repository includes the installable inference library, bundled trained model
 ground-motion-usability-classification/
 ├── README.md
 ├── LICENSE
-├── requirements.txt
-├── data/
+├── python_library/
+│   ├── pyproject.toml
 │   ├── README.md
-│   ├── record_labeling.csv              # to be added
-│   ├── selected_records_training/       # data to be added
-│   └── selected_records_testing/        # data to be added
-├── src/
-│   └── feature_generation/              # scripts to be added
-├── python_library/                      # installable library and bundled model
-├── models/                              # additional research artifacts planned
-└── examples/                            # runnable library example and sample outputs
+│   ├── model_manifest.json
+│   ├── verification.json
+│   ├── gm_usability/
+│   │   ├── features.py          # feature generation
+│   │   ├── inference.py         # saved-model inference
+│   │   ├── _ranking.py          # embedded feature ranking
+│   │   ├── cli.py
+│   │   ├── __init__.py
+│   │   └── data/model.sav       # original saved model
+│   └── tests/test_library.py
+└── examples/
+    ├── README.md
+    ├── test_usability_library.py
+    ├── 20031222191507_NC_PMM_HNN.txt
+    ├── 60_antarctica2012_10deg.miniseed
+    ├── input_manifest.json
+    └── library_outputs/
 ```
-
-## Data
-
-The study uses raw ground-motion waveforms obtained from IRIS Data Services, with earthquake metadata obtained from the USGS Comprehensive Earthquake Catalog (ComCat).
-
-The final data release is planned to include:
-
-- `record_labeling.csv`: analyst-defined usability labels, training/testing assignment, and dataset inclusion/exclusion information.
-- `selected_records_training/`: selected waveform records used for model development/training.
-- `selected_records_testing/`: selected waveform records from held-out events used for testing.
-
-The waveform folders are intentionally not included in the initial GitHub repository because of their size. Their public data-repository location and DOI will be added here when the dataset upload is finalized.
 
 ## Feature generation
 
-The Python library implements feature generation in `python_library/gm_usability/features.py`. Additional research scripts will be placed in `src/feature_generation/`.
+The Python library implements feature generation in `python_library/gm_usability/features.py`.
 
 The manuscript evaluates a multi-configuration STA/LTA feature set spanning 12 STA/LTA window pairs, 7 thresholds, and 6 minimum exceedance durations (504 configurations), together with envelope-percentile waveform features.
 
 ## Models
 
-The library bundles the unchanged 1,368-input LightGBM model in `python_library/gm_usability/data/model.sav`. Its SHA-256, input order, and threshold are recorded in `python_library/model_manifest.json`. Additional model artifacts may be placed in `models/`.
+The library bundles the unchanged 1,368-input LightGBM model in `python_library/gm_usability/data/model.sav`. Its SHA-256, input order, and threshold are recorded in `python_library/model_manifest.json`.
 
 ## Examples
 
@@ -95,7 +110,7 @@ Python 3.10 or newer is required. The library pins scikit-learn 1.7.2 and LightG
 
 ## Data availability
 
-Large waveform data are not stored in the initial GitHub repository. A persistent link/DOI for the complete training and testing dataset will be added here after archival.
+The two example waveforms are included in `examples/`. The complete training/testing waveform collection is not included. A persistent link/DOI for the complete training and testing dataset will be added here after archival.
 
 ## Citation
 

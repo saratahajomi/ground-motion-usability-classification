@@ -17,5 +17,16 @@
   "miniseed_full_total_seconds": 24.266501099977177,
   "miniseed_reduced_total_seconds": 22.91558149998309,
   "miniseed_mode_label_differences": 0,
-  "package_tests_passed": 4
+  "package_tests_passed": 5,
+  "antarctica_miniseed": {
+    "stored_traces": 53,
+    "skipped_short_traces": 2,
+    "processed_traces": 51,
+    "reduced_feature_count": 500
+  },
+  "user_supplied_feature_comparison": {
+    "record": "20120601050817_ER_HOO_BH1",
+    "exact_name_and_value_matches": 1368,
+    "differences": 0
+  }
 }

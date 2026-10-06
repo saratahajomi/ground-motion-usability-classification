@@ -64,3 +64,7 @@ Run package tests after installation:
 ```powershell
 python -m unittest discover -s tests
 ```
+
+## Detailed function reference
+
+See [FUNCTION_GUIDE.md](FUNCTION_GUIDE.md) for complete API documentation, including reduced_policy and allow_omitted, examples, output meanings, feature constants, and internal helpers.

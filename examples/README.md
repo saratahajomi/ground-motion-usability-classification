@@ -41,3 +41,7 @@ Keep your existing project interpreter unchanged. Use PyCharm's Terminal to run 
 `input_manifest.json` records the input file sizes and SHA-256 hashes. Both inputs are exact copies of the files supplied for this release. They are example waveforms, not the complete training/testing data release. Third-party waveform data remain subject to their original providers' terms.
 
 `library_outputs/` contains previously generated sample prediction outputs; filenames identify their source records.
+
+## API documentation
+
+See [the detailed function guide](../python_library/FUNCTION_GUIDE.md) for full and reduced behavior, imputation, and every library function.

@@ -125,3 +125,7 @@ The source code in this repository is released under the MIT License. Third-part
 Sara Tahajomi Banafshehvaragh  
 Department of Civil and Environmental Engineering  
 Old Dominion University
+
+## Detailed function reference
+
+See [the complete function guide](python_library/FUNCTION_GUIDE.md) for every public function, argument, return value, reduced-mode policy, missing-column handling, internal helper, CLI option, and validation rule.

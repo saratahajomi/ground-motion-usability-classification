@@ -45,3 +45,14 @@ Keep your existing project interpreter unchanged. Use PyCharm's Terminal to run 
 ## API documentation
 
 See [the detailed function guide](../python_library/FUNCTION_GUIDE.md) for full and reduced behavior, imputation, and every library function.
+
+## Separate TXT and MiniSEED scripts
+
+The supplied scripts are included as `test_library.py` and `test_library_mseed.py`. Each defaults to the corresponding included waveform beside it. Personal directories were removed. Edit `txt_file` or `mseed_file` to point to another input and `OUTPUT_DIR` to choose another output location.
+
+```powershell
+.\.venv-gm\Scripts\python.exe examples/test_library.py
+.\.venv-gm\Scripts\python.exe examples/test_library_mseed.py
+```
+
+Detailed function usage and all declared dependency versions are also included directly in the repository's main README.

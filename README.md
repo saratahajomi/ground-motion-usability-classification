@@ -25,7 +25,7 @@ print(predictions)
 
 Both modes use the unchanged 1,368-input classifier, fitted imputer, and saved 0.91 threshold. Reduced mode fills the 868 uncomputed model inputs using the saved imputer; its predictions can differ from full mode. The original full-model accuracy is not a validation of reduced-mode accuracy.
 
-See [installation and usage](python_library/README.md), the [runnable example](examples/test_usability_library.py), and [validation results](python_library/verification.json). Full inference reproduces all 1,755 original testing labels. The large training and testing waveform datasets remain a separate planned release.
+See [installation and usage](python_library/README.md), the [runnable example](examples/test_usability_library.py), and [validation results](python_library/verification.json). Full inference reproduces all 1,755 original testing labels. The project data location is [DesignSafe PRJ-6525](https://www.designsafe-ci.org/data/browser/projects/PRJ-6525/workdir); see Data availability below for access and usage details.
 
 ## Run the included waveform examples
 
@@ -86,8 +86,9 @@ ground-motion-usability-classification/
 
 ## Feature generation
 
-Create model = UsabilityModel() to load the saved classifier and its fitted imputer from the installed library. Then call predictions, features = model.predict_file("record.txt", mode="full"). This reads the waveform, generates all 1,368 features, applies the saved imputer, and returns usability predictions and feature values.
-For faster feature generation, use mode="reduced". It generates only the top 500 ranked features and fills the remaining 868 classifier inputs using the saved imputer. Both modes use the same saved model without retraining. TXT and MiniSEED files are supported.
+The Python library implements feature generation in `python_library/gm_usability/features.py`.
+
+The manuscript evaluates a multi-configuration STA/LTA feature set spanning 12 STA/LTA window pairs, 7 thresholds, and 6 minimum exceedance durations (504 configurations), together with envelope-percentile waveform features.
 
 ## Models
 
@@ -109,7 +110,53 @@ Python 3.10 or newer is required. The library pins scikit-learn 1.7.2 and LightG
 
 ## Data availability
 
-The two example waveforms are included in `examples/`. The complete training/testing waveform collection is not included. A persistent link/DOI for the complete training and testing dataset will be added here after archival.
+### DesignSafe Data Depot — project PRJ-6525
+
+Research data supporting **“Automated Usability Classification of Ground-Motion Records Using Machine Learning and Waveform-Based Pattern Recognition”** have been uploaded to [DesignSafe project PRJ-6525 — working directory](https://www.designsafe-ci.org/data/browser/projects/PRJ-6525/workdir). The project supports reproducible, waveform-based classification of ground-motion records as usable or non-usable.
+
+The project page identifies Sara Tahajomi Banafshehvaragh as PI and Pengfei Wang as Co-PI, with Earthquake as the natural hazard type.
+
+### Uploaded training and testing data
+
+| Dataset folder | Purpose | Direct link |
+|---|---|---|
+| `training_01032026` | Training data supplied for the study's model-development workflow | [Browse training data](https://www.designsafe-ci.org/data/browser/projects/PRJ-6525/workdir/%2Ftraining_01032026) |
+| `testing_01032026` | Testing data supplied for evaluating the trained model | [Browse testing data](https://www.designsafe-ci.org/data/browser/projects/PRJ-6525/workdir/%2Ftesting_01032026) |
+
+The folders are stored on DesignSafe rather than bundled with this GitHub repository. Keep the training and testing assignments separate when reproducing the study. The inference library uses the saved model directly: downloading training data does not trigger training, and no retraining is required to analyze testing waveforms or new records.
+
+Open either folder link to browse its uploaded contents and download the files you need. Refer to the project's accompanying metadata for exact record membership, analyst labels, and any processing or split definitions. The folder names are preserved exactly as uploaded; no inference about their date format or record counts is made here.
+
+
+DesignSafe Data Depot supports browsing, downloading, sharing, and publication of research data. This link points to the project's working directory. Access can depend on sign-in and project permissions; a working-directory URL does not by itself establish public access or identify a published DOI release. See the [DesignSafe Data Depot guide](https://designsafe-ci.org/user-guide/datadepot/) for access and download information.
+
+To use downloaded waveforms with this library:
+
+1. Open the project link and sign in if prompted.
+2. Browse the available project files and download the waveform you want to analyze. If the project is unavailable to your account, contact the project owner for access.
+3. Use a two-column TXT waveform (time in seconds, then amplitude) or MiniSEED input with the installed library:
+
+```python
+from pathlib import Path
+from gm_usability import UsabilityModel
+
+# Replace this with the location where you saved the downloaded waveform.
+waveform = Path(r"YOUR_DOWNLOAD_DIRECTORY/record.miniseed")
+model = UsabilityModel()
+predictions, features = model.predict_file(waveform, mode="full")
+predictions.to_csv("predictions.csv", index=False)
+features.to_csv("features.csv", index_label="record_id")
+```
+
+Use `mode="reduced"` to generate only the embedded top 500 and impute the remaining classifier inputs. The library reads local files; it does not authenticate to DesignSafe or download data automatically. The saved classifier and ranking are bundled, so accessing DesignSafe is not required to run the included examples.
+
+### Included examples and data reuse
+
+Two example waveforms are included in `examples/`: `20031222191507_NC_PMM_HNN.txt` and `60_antarctica2012_10deg.miniseed`. The uploaded training and testing folders are linked above and are not bundled with this repository.
+
+For project-specific file descriptions, record labels, train/test assignments, licensing, and citation information, consult the metadata and documentation available in the DesignSafe project. Follow the applicable dataset and original waveform-provider terms. This repository's MIT source-code license does not determine the licensing of third-party waveform data.
+
+The project title and the two uploaded folder names are documented from the project screenshot and links supplied by the author. Individual file inventories, record counts, public release status, and a DOI have not been verified. A published dataset citation should be added when its bibliographic information is available.
 
 ## Citation
 

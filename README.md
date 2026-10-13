@@ -86,9 +86,8 @@ ground-motion-usability-classification/
 
 ## Feature generation
 
-The Python library implements feature generation in `python_library/gm_usability/features.py`.
-
-The manuscript evaluates a multi-configuration STA/LTA feature set spanning 12 STA/LTA window pairs, 7 thresholds, and 6 minimum exceedance durations (504 configurations), together with envelope-percentile waveform features.
+Create model = UsabilityModel() to load the saved classifier and its fitted imputer from the installed library. Then call predictions, features = model.predict_file("record.txt", mode="full"). This reads the waveform, generates all 1,368 features, applies the saved imputer, and returns usability predictions and feature values.
+For faster feature generation, use mode="reduced". It generates only the top 500 ranked features and fills the remaining 868 classifier inputs using the saved imputer. Both modes use the same saved model without retraining. TXT and MiniSEED files are supported.
 
 ## Models
 

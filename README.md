@@ -41,9 +41,9 @@ python examples/test_usability_library.py examples/20031222191507_NC_PMM_HNN.txt
 python examples/test_usability_library.py examples/60_antarctica2012_10deg.miniseed
 ```
 
-Each command tests full and reduced modes and saves feature and prediction CSVs in `library_results/`. For MiniSEED, each valid stored trace receives its own prediction. Version 0.1.1 skips invalid traces with explicit warnings; the Antarctica file contains 53 traces, of which two have only 40 samples and are skipped, leaving 51 valid traces.
+Each command tests full and reduced modes and saves feature and prediction CSVs in `library_results/`. For MiniSEED, each valid stored trace receives its own prediction. 
 
-See [the example guide](examples/README.md) for isolated-environment and PyCharm instructions. Uploading files does not delete existing GitHub paths. Remove obsolete root `models/`, `src/`, `data/`, and `requirements.txt` placeholders separately when updating an existing repository.
+See [the example guide](examples/README.md) for isolated-environment and PyCharm instructions. 
 
 ## Overview
 
@@ -86,9 +86,30 @@ ground-motion-usability-classification/
 
 ## Feature generation
 
-The Python library implements feature generation in `python_library/gm_usability/features.py`.
+The library must reproduce the feature-generation methodology implemented in the original scripts, without modifying feature definitions, names, parameters, or calculations.
 
-The manuscript evaluates a multi-configuration STA/LTA feature set spanning 12 STA/LTA window pairs, 7 thresholds, and 6 minimum exceedance durations (504 configurations), together with envelope-percentile waveform features.
+Two feature-generation options must be supported:
+
+1. Full feature set (1,368 features)
+
+504 STA/LTA features: Generated using 12 STA/LTA window pairs, 7 thresholds, and 6 minimum exceedance durations.
+
+864 envelope-based features: Generated using moving-window percentile envelopes and peak-context calculations. 
+
+2. Reduced feature set (top 500 features)
+
+Select the top 500 features using the supplied full-feature ranking.
+
+Embed the ranking directly in the library.
+
+Calculate only the selected features and their necessary intermediate dependencies, rather than generating all 1,368 features and subsequently filtering them.
+
+Reuse shared STA/LTA and envelope calculations to minimize computational time.
+
+Ensure every reduced feature produces the same numerical value as its corresponding feature in the full feature set.
+
+Apply the same feature-generation methodology to .txt and .mseed waveforms, ensuring consistent preprocessing, sampling-interval handling, and feature calculations.
+
 
 ## Models
 
@@ -156,11 +177,31 @@ Two example waveforms are included in `examples/`: `20031222191507_NC_PMM_HNN.tx
 
 For project-specific file descriptions, record labels, train/test assignments, licensing, and citation information, consult the metadata and documentation available in the DesignSafe project. Follow the applicable dataset and original waveform-provider terms. This repository's MIT source-code license does not determine the licensing of third-party waveform data.
 
-The project title and the two uploaded folder names are documented from the project screenshot and links supplied by the author. Individual file inventories, record counts, public release status, and a DOI have not been verified. A published dataset citation should be added when its bibliographic information is available.
 
 ## Citation
 
-Citation information will be updated when the associated manuscript and dataset have their final bibliographic identifiers.
+Allen, R.V. (1978). Automatic earthquake recognition and timing from single traces. Bulletin of the Seismological Society of America, 68(5), 1521–1532.
+Ancheta, T.D., Darragh, R.B., Stewart, J.P., Seyhan, E., Silva, W.J., Chiou, B.S.-J., Wooddell, K.E., Graves, R.W., Kottke, A.R., Boore, D.M., Kishida, T., & Donahue, J.L. (2014). NGA-West2 database. Earthquake Spectra, 30(3), 989–1005.
+Bellagamba, X., Lee, R., & Bradley, B.A. (2019). A neural network for automated quality screening of ground motion records from small magnitude earthquakes. Earthquake Spectra, 35(4), 1637–1661.
+Boore, D.M., & Bommer, J.J. (2005). Processing of strong-motion accelerograms: needs, options and consequences. Soil Dynamics and Earthquake Engineering, 25(2), 93–115.
+Breiman, L. (2001). Random forests. Machine Learning, 45, 5–32.
+Chen, T., and Guestrin, C. (2016). XGBoost: A scalable tree boosting system. Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (pp. 785–794).
+Cox, D. R. (1958). The regression analysis of binary sequences. Journal of the Royal Statistical Society: Series B (Methodological), 20(2), 215–232.
+Dawood, H.M., Rodriguez-Marek, A., Bayless, J., Goulet, C.A., & Thompson, E.M. (2016). A flatfile for the KiK-net database processed using an automated protocol. Earthquake Spectra, 32(2), 1281–1302.
+Freund, Y., and Schapire, R. E. (1997). A decision-theoretic generalization of on-line learning and an application to boosting. Journal of Computer and System Sciences, 55(1), 119–139.
+Friedman, J. H. (2001). Greedy function approximation: A gradient boosting machine. The Annals of Statistics, 29(5), 1189–1232.
+Geurts, P., Ernst, D., & Wehenkel, L. (2006). Extremely randomized trees. Machine Learning, 63, 3–42.
+Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., and Liu, T.-Y. (2017). LightGBM: A highly efficient gradient boosting decision tree. In Advances in Neural Information Processing Systems 30.
+Kishida, T., Giacinto, D.D., & Iaccarino, G. (2017). Comparison of manual and automated ground motion processing for small-to-moderate magnitude earthquakes in Japan. Earthquake Spectra, 33(3), 875–894.
+Kleckner, J.K., Withers, K.B., Thompson, E.M., Rekoske, J.M., Wolin, E., Moschetti, M.P. (2022). Automated detection of clipping in broadband earthquake records. Seismological Research Letters, 93(2A), 880–896.
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., VanderPlas, J., Passos, A., Cournapeau, D., Brucher, M., Perrot, M., and Duchesnay, E. (2011). Scikit-learn: Machine learning in Python. Journal of Machine Learning Research, 12, 2825–2830.
+Prokhorenkova, L., Gusev, G., Vorobev, A., Dorogush, A. V., and Gulin, A. (2018). CatBoost: Unbiased boosting with categorical features. In Advances in Neural Information Processing Systems 31.
+Ramos-Sepúlveda, M.E., Brandenberg, S.J., Buckreis, T.E., Parker, G.A., & Stewart, J.P. (2025). High-pass corner-frequency selection and review tool for use in ground-motion processing. Seismological Research Letters, 96(5), 3244–3252.
+Thompson, E.M., Hearne, M., Aagaard, B.T., Rekoske, J.M., et al. (2024). Automated, near real-time ground-motion processing at the USGS. Seismological Research Letters, 96(1), 538–553.
+Trnkoczy, A. (2012): Understanding and parameter setting of STA/LTA trigger algorithm. - In: Bormann, P. (Ed.), New Manual of Seismological Observatory Practice 2 (NMSOP-2), Potsdam : Deutsches GeoForschungsZentrum GFZ, 1–20.
+Wang, S., & Zhang, X. (2020). Automatic detection of amplitude-distorted samples from clipped seismic waveforms. Seismological Research Letters, 91(6), 3563–3573.
+Bodenmann, L., Baker, J.W., & Stojadinović, B. (2023). Accounting for path and site effects in spatial ground-motion correlation models using Bayesian inference. Natural Hazards and Earth System Sciences, 23(7), 2387–2402.
+
 
 ## License
 
@@ -171,6 +212,8 @@ The source code in this repository is released under the MIT License. Third-part
 Sara Tahajomi Banafshehvaragh  
 Department of Civil and Environmental Engineering  
 Old Dominion University
+sa.tahajomi@gmail.com
+staha002@odu.edu
 
 ## Dependency versions
 
@@ -198,7 +241,7 @@ python -m pip install ./python_library
 
 Use the separate environment's Python instead of `python` if you want to preserve an existing environment. The versioned validation requirements are inside `python_library/`; no redundant root requirements file is needed.
 
-## Your TXT and MiniSEED code examples
+## TXT and MiniSEED code examples
 
 These examples are adapted from the supplied test scripts. Personal absolute paths and interpreter paths have been removed. Inputs resolve relative to each script's own folder, so changing the terminal working directory does not change their default waveform paths.
 

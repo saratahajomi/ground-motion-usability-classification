@@ -232,7 +232,9 @@ The source code in this repository is released under the MIT License. Third-part
 Sara Tahajomi Banafshehvaragh  
 Department of Civil and Environmental Engineering  
 Old Dominion University
+
 sa.tahajomi@gmail.com
+
 staha002@odu.edu
 
 ## Dependency versions

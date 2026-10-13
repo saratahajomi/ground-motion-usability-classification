@@ -181,25 +181,45 @@ For project-specific file descriptions, record labels, train/test assignments, l
 ## Citation
 
 Allen, R.V. (1978). Automatic earthquake recognition and timing from single traces. Bulletin of the Seismological Society of America, 68(5), 1521–1532.
+
 Ancheta, T.D., Darragh, R.B., Stewart, J.P., Seyhan, E., Silva, W.J., Chiou, B.S.-J., Wooddell, K.E., Graves, R.W., Kottke, A.R., Boore, D.M., Kishida, T., & Donahue, J.L. (2014). NGA-West2 database. Earthquake Spectra, 30(3), 989–1005.
+
 Bellagamba, X., Lee, R., & Bradley, B.A. (2019). A neural network for automated quality screening of ground motion records from small magnitude earthquakes. Earthquake Spectra, 35(4), 1637–1661.
+
 Boore, D.M., & Bommer, J.J. (2005). Processing of strong-motion accelerograms: needs, options and consequences. Soil Dynamics and Earthquake Engineering, 25(2), 93–115.
+
 Breiman, L. (2001). Random forests. Machine Learning, 45, 5–32.
+
 Chen, T., and Guestrin, C. (2016). XGBoost: A scalable tree boosting system. Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (pp. 785–794).
+
 Cox, D. R. (1958). The regression analysis of binary sequences. Journal of the Royal Statistical Society: Series B (Methodological), 20(2), 215–232.
+
 Dawood, H.M., Rodriguez-Marek, A., Bayless, J., Goulet, C.A., & Thompson, E.M. (2016). A flatfile for the KiK-net database processed using an automated protocol. Earthquake Spectra, 32(2), 1281–1302.
+
 Freund, Y., and Schapire, R. E. (1997). A decision-theoretic generalization of on-line learning and an application to boosting. Journal of Computer and System Sciences, 55(1), 119–139.
+
 Friedman, J. H. (2001). Greedy function approximation: A gradient boosting machine. The Annals of Statistics, 29(5), 1189–1232.
+
 Geurts, P., Ernst, D., & Wehenkel, L. (2006). Extremely randomized trees. Machine Learning, 63, 3–42.
+
 Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., and Liu, T.-Y. (2017). LightGBM: A highly efficient gradient boosting decision tree. In Advances in Neural Information Processing Systems 30.
+
 Kishida, T., Giacinto, D.D., & Iaccarino, G. (2017). Comparison of manual and automated ground motion processing for small-to-moderate magnitude earthquakes in Japan. Earthquake Spectra, 33(3), 875–894.
+
 Kleckner, J.K., Withers, K.B., Thompson, E.M., Rekoske, J.M., Wolin, E., Moschetti, M.P. (2022). Automated detection of clipping in broadband earthquake records. Seismological Research Letters, 93(2A), 880–896.
+
 Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., VanderPlas, J., Passos, A., Cournapeau, D., Brucher, M., Perrot, M., and Duchesnay, E. (2011). Scikit-learn: Machine learning in Python. Journal of Machine Learning Research, 12, 2825–2830.
+
 Prokhorenkova, L., Gusev, G., Vorobev, A., Dorogush, A. V., and Gulin, A. (2018). CatBoost: Unbiased boosting with categorical features. In Advances in Neural Information Processing Systems 31.
+
 Ramos-Sepúlveda, M.E., Brandenberg, S.J., Buckreis, T.E., Parker, G.A., & Stewart, J.P. (2025). High-pass corner-frequency selection and review tool for use in ground-motion processing. Seismological Research Letters, 96(5), 3244–3252.
+
 Thompson, E.M., Hearne, M., Aagaard, B.T., Rekoske, J.M., et al. (2024). Automated, near real-time ground-motion processing at the USGS. Seismological Research Letters, 96(1), 538–553.
+
 Trnkoczy, A. (2012): Understanding and parameter setting of STA/LTA trigger algorithm. - In: Bormann, P. (Ed.), New Manual of Seismological Observatory Practice 2 (NMSOP-2), Potsdam : Deutsches GeoForschungsZentrum GFZ, 1–20.
+
 Wang, S., & Zhang, X. (2020). Automatic detection of amplitude-distorted samples from clipped seismic waveforms. Seismological Research Letters, 91(6), 3563–3573.
+
 Bodenmann, L., Baker, J.W., & Stojadinović, B. (2023). Accounting for path and site effects in spatial ground-motion correlation models using Bayesian inference. Natural Hazards and Earth System Sciences, 23(7), 2387–2402.
 
 
